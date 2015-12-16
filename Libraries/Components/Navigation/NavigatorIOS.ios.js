@@ -546,6 +546,12 @@ var NavigatorIOS = React.createClass({
     this.replaceAtIndex(route, -1);
   },
 
+  update: function(route: Route) {
+    var routeStack = this.state.routeStack;
+    route.component || route.passProps || (route.skipUpdate = true);
+    this.replace(Object.assign(routeStack[routeStack.length - 1], route));
+  },
+
   /**
    * Replace the current route's parent.
    */
