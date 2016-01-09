@@ -25,6 +25,8 @@
 @property (nonatomic, strong) UIColor *tintColor;
 @property (nonatomic, strong) UIColor *barTintColor;
 @property (nonatomic, strong) UIColor *titleTextColor;
+@property (nonatomic, copy) NSString *titleTextFontFamily;
+@property (nonatomic, assign) NSInteger *titleTextFontSize;
 @property (nonatomic, assign) BOOL translucent;
 
 @property (nonatomic, readonly) UIBarButtonItem *backButtonItem;
