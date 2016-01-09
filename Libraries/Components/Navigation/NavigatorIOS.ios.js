@@ -260,10 +260,20 @@ var NavigatorIOS = React.createClass({
        */
       barTintColor: PropTypes.string,
 
-       /**
+      /**
        * The text color of the navigation bar title
        */
       titleTextColor: PropTypes.string,
+
+      /**
+       * The font family of the navigation bar title
+       */
+      titleTextFontFamily: PropTypes.string,
+
+      /**
+       * The font size of the navigation bar title
+       */
+      titleTextFontSize: PropTypes.number,
 
        /**
        * A Boolean value that indicates whether the navigation bar is translucent
