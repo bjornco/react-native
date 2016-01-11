@@ -127,6 +127,9 @@ static UIView *RCTFindNavBarShadowViewInView(UIView *view)
     }
     bar.titleTextAttributes = titleTextAttributes;
 
+    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil]
+      setTitleTextAttributes:titleTextAttributes
+      forState:UIControlStateNormal];
 
     RCTFindNavBarShadowViewInView(bar).hidden = _navItem.shadowHidden;
 
