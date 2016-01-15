@@ -399,6 +399,7 @@ static inline BOOL isRectInvalid(CGRect rect) {
   }
   _rctRefreshControl = refreshControl;
   [self addSubview:_rctRefreshControl];
+  _rctRefreshControl.superview.backgroundColor = _rctRefreshControl.backgroundColor;
 }
 #endif //TARGET_OS_TV
 
