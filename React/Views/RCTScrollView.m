@@ -365,6 +365,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)init)
   }
   _rctRefreshControl = refreshControl;
   [self addSubview:_rctRefreshControl];
+  _rctRefreshControl.superview.backgroundColor = _rctRefreshControl.backgroundColor;
 }
 
 @end
