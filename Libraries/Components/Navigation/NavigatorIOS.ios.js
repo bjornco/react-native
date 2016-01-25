@@ -648,9 +648,11 @@ var NavigatorIOS = React.createClass({
   _routeToStackItem: function(route: Route, i: number) {
     var {component, wrapperStyle, passProps, ...route} = route;
     var {itemWrapperStyle, ...props} = this.props;
-    var shouldUpdateChild =
-      this.state.updatingAllIndicesAtOrBeyond &&
-      this.state.updatingAllIndicesAtOrBeyond >= i;
+    var shouldUpdateChild = (
+       this.state.updatingAllIndicesAtOrBeyond !== null &&
+       this.state.updatingAllIndicesAtOrBeyond <= i
+     );
+
     var Component = component;
     return (
       <StaticContainer key={'nav' + i} shouldUpdate={shouldUpdateChild}>
