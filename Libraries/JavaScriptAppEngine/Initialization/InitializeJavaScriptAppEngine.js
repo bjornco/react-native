@@ -184,8 +184,16 @@ function setUpDevTools() {
   // not when debugging in chrome
   if (__DEV__) { // TODO(9123099) Strip `__DEV__ &&`
     if (!window.document && require('Platform').OS === 'ios') {
-      var setupDevtools = require('setupDevtools');
-      setupDevtools();
+      /**
+       * devtools is broken, and this causes the app to poll localhost:8097/devtools
+       * on an interval, and the connections are always refused. Commenting out until
+       * this is fixed.
+       *
+       * https://github.com/facebook/react-devtools/issues/229
+       * https://github.com/facebook/react-native/issues/4730
+       */
+      // var setupDevtools = require('setupDevtools');
+      // setupDevtools();
     }
   }
 }
