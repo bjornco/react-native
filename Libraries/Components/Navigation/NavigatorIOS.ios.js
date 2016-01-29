@@ -659,7 +659,7 @@ var NavigatorIOS = React.createClass({
       if (_.isEqual(newPassProps, route.lastPassProps)) {
         passProps = route.lastPassProps;
       } else {
-        passProps = route.lastPassProps = newPassProps;
+        passProps = this.state.routeStack[i].lastPassProps = newPassProps;
         shouldUpdateChild = true;
       }
     }
