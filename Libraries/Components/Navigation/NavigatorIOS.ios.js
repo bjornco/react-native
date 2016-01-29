@@ -11,6 +11,7 @@
  */
 'use strict';
 
+var _ = require('underscore');
 var EventEmitter = require('EventEmitter');
 var Image = require('Image');
 var NavigationContext = require('NavigationContext');
@@ -53,7 +54,7 @@ var NavigatorTransitionerIOS = React.createClass({
 type Route = {
   component: Function;
   title: string;
-  passProps?: Object;
+  passProps?: any;
   backButtonTitle?: string;
   backButtonIcon?: Object;
   leftButtonTitle?: string;
@@ -202,7 +203,7 @@ var NavigatorIOS = React.createClass({
        * Specify additional props passed to the component. NavigatorIOS will
        * automatically provide "route" and "navigator" components
        */
-      passProps: PropTypes.object,
+      passProps: PropTypes.any,
 
       /**
        * If set, the left header button image will appear with this source. Note
@@ -651,6 +652,18 @@ var NavigatorIOS = React.createClass({
     var shouldUpdateChild =
       this.state.updatingAllIndicesAtOrBeyond != null &&
       this.state.updatingAllIndicesAtOrBeyond >= i;
+
+    if (typeof passProps == "function") {
+      let newPassProps = passProps();
+
+      if (_.isEqual(newPassProps, route.lastPassProps)) {
+        passProps = route.lastPassProps;
+      } else {
+        passProps = route.lastPassProps = newPassProps;
+        shouldUpdateChild = true;
+      }
+    }
+
     var Component = component;
     return (
       <StaticContainer key={'nav' + i} shouldUpdate={shouldUpdateChild}>
