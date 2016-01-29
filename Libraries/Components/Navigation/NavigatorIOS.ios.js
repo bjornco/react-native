@@ -317,7 +317,7 @@ var NavigatorIOS = React.createClass({
       /**
        * The React Class to render for this route
        */
-      component: PropTypes.func.isRequired,
+      component: PropTypes.func,
 
       /**
        * The title displayed in the navigation bar and the back button for this
@@ -851,29 +851,24 @@ var NavigatorIOS = React.createClass({
   },
 
   _routeToStackItem: function(routeArg: Route, i: number) {
-    var {component, wrapperStyle, passProps, ...route} = routeArg;
+    var {wrapperStyle, ...route} = routeArg;
     var {itemWrapperStyle, ...props} = this.props;
-    var shouldUpdateChild =
-      this.state.updatingAllIndicesAtOrBeyond != null &&
-      this.state.updatingAllIndicesAtOrBeyond >= i;
-    var Component = component;
+
     return (
-      <StaticContainer key={'nav' + i} shouldUpdate={shouldUpdateChild}>
-        <RCTNavigatorItem
-          {...props}
-          {...route}
-          style={[
-            styles.stackItem,
-            itemWrapperStyle,
-            wrapperStyle
-          ]}>
-          <Component
-            navigator={this.navigator}
-            route={route}
-            {...passProps}
-          />
-        </RCTNavigatorItem>
-      </StaticContainer>
+      <RCTNavigatorItem
+        key={'key'+i}
+        {...props}
+        {...route}
+        style={[
+          styles.stackItem,
+          itemWrapperStyle,
+          wrapperStyle
+        ]}>
+        {this.props.renderScene(
+          route,
+          this,
+        )}
+      </RCTNavigatorItem>
     );
   },
 
