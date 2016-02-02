@@ -663,6 +663,11 @@ var NavigatorIOS = React.createClass({
         shouldUpdateChild = true;
       }
     }
+    /**
+     * Hack: Just always let scenes update for now.
+     */
+    shouldUpdateChild = true;
+
 
     var Component = component;
     return (
