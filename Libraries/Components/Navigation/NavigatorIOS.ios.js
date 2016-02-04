@@ -647,27 +647,17 @@ var NavigatorIOS = React.createClass({
   },
 
   _routeToStackItem: function(routeArg: Route, i: number) {
-    var {component, wrapperStyle, passProps, ...route} = routeArg;
+    var {component, wrapperStyle, ...route} = routeArg;
+
     var {itemWrapperStyle, ...props} = this.props;
     var shouldUpdateChild =
       this.state.updatingAllIndicesAtOrBeyond != null &&
       this.state.updatingAllIndicesAtOrBeyond >= i;
 
-    if (typeof passProps == "function") {
-      let newPassProps = passProps();
-
-      if (_.isEqual(newPassProps, route.lastPassProps)) {
-        passProps = route.lastPassProps;
-      } else {
-        passProps = this.state.routeStack[i].lastPassProps = newPassProps;
-        shouldUpdateChild = true;
-      }
-    }
     /**
      * Hack: Just always let scenes update for now.
      */
     shouldUpdateChild = true;
-
 
     var Component = component;
     return (
@@ -680,11 +670,10 @@ var NavigatorIOS = React.createClass({
             itemWrapperStyle,
             wrapperStyle
           ]}>
-          <Component
-            navigator={this.navigator}
-            route={route}
-            {...passProps}
-          />
+          {this.props.renderScene(
+            routeArg,
+            this
+          )}
         </RCTNavigatorItem>
       </StaticContainer>
     );
@@ -698,6 +687,7 @@ var NavigatorIOS = React.createClass({
     // computation of navigator children.
     var items = shouldRecurseToNavigator ?
       this.state.routeStack.map(this._routeToStackItem) : null;
+
     return (
       <StaticContainer shouldUpdate={shouldRecurseToNavigator}>
         <NavigatorTransitionerIOS
