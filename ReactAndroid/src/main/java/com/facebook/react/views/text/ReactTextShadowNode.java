@@ -274,7 +274,7 @@ public class ReactTextShadowNode extends LayoutShadowNode {
                 ? Math.min(reactCSSNode.mNumberOfLines, layout.getLineCount())
                 : layout.getLineCount();
             float lineHeight = PixelUtil.toPixelFromSP(reactCSSNode.mLineHeight);
-            measureOutput.height = lineHeight * lines;
+            measureOutput.height = layout.getLineCount() == 1 ? layout.getHeight() : lineHeight * lines;
           }
         }
       };
