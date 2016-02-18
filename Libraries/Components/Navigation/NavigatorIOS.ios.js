@@ -66,6 +66,21 @@ type Route = {
   wrapperStyle?: any;
 };
 
+const ValidRouteProps = [
+  "component",
+  "title",
+  "passProps",
+  "backButtonTitle",
+  "backButtonIcon",
+  "leftButtonTitle",
+  "leftButtonIcon",
+  "onLeftButtonPress",
+  "rightButtonTitle",
+  "rightButtonIcon",
+  "onRightButtonPress",
+  "wrapperStyle",
+];
+
 type State = {
   idStack: Array<number>;
   routeStack: Array<Route>;
@@ -192,7 +207,7 @@ var NavigatorIOS = React.createClass({
       /**
        * The React Class to render for this route
        */
-      component: PropTypes.func.isRequired,
+      component: PropTypes.func,
 
       /**
        * The title displayed in the nav bar and back button for this route
@@ -647,46 +662,24 @@ var NavigatorIOS = React.createClass({
   },
 
   _routeToStackItem: function(routeArg: Route, i: number) {
-    var {component, wrapperStyle, passProps, ...route} = routeArg;
+    var {wrapperStyle, ...route} = routeArg;
     var {itemWrapperStyle, ...props} = this.props;
-    var shouldUpdateChild =
-      this.state.updatingAllIndicesAtOrBeyond != null &&
-      this.state.updatingAllIndicesAtOrBeyond >= i;
 
-    if (typeof passProps == "function") {
-      let newPassProps = passProps();
-
-      if (_.isEqual(newPassProps, route.lastPassProps)) {
-        passProps = route.lastPassProps;
-      } else {
-        passProps = this.state.routeStack[i].lastPassProps = newPassProps;
-        shouldUpdateChild = true;
-      }
-    }
-    /**
-     * Hack: Just always let scenes update for now.
-     */
-    shouldUpdateChild = true;
-
-
-    var Component = component;
     return (
-      <StaticContainer key={'nav' + i} shouldUpdate={shouldUpdateChild}>
-        <RCTNavigatorItem
-          {...props}
-          {...route}
-          style={[
-            styles.stackItem,
-            itemWrapperStyle,
-            wrapperStyle
-          ]}>
-          <Component
-            navigator={this.navigator}
-            route={route}
-            {...passProps}
-          />
-        </RCTNavigatorItem>
-      </StaticContainer>
+      <RCTNavigatorItem
+        key={'key'+i}
+        {...props}
+        {...route}
+        style={[
+          styles.stackItem,
+          itemWrapperStyle,
+          wrapperStyle
+        ]}>
+        {this.props.renderScene(
+          route,
+          this,
+        )}
+      </RCTNavigatorItem>
     );
   },
 
@@ -739,4 +732,5 @@ var styles = StyleSheet.create({
 var RCTNavigator = requireNativeComponent('RCTNavigator');
 var RCTNavigatorItem = requireNativeComponent('RCTNavItem');
 
+NavigatorIOS.ValidRouteProps = ValidRouteProps;
 module.exports = NavigatorIOS;
