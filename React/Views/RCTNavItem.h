@@ -8,13 +8,14 @@
  */
 
 #import <UIKit/UIKit.h>
-
+#import "RCTWrapperViewController.h"
 #import "RCTComponent.h"
 
 @interface RCTNavItem : UIView
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, strong) UIImage *titleImage;
+@property (nonatomic, weak) RCTWrapperViewController *delegate;
 @property (nonatomic, strong) UIImage *leftButtonIcon;
 @property (nonatomic, copy) NSString *leftButtonTitle;
 @property (nonatomic, strong) UIImage *rightButtonIcon;
