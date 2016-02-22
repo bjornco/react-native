@@ -45,6 +45,7 @@
 {
   if ((self = [self initWithContentView:navItem])) {
     _navItem = navItem;
+    _navItem.delegate = self;
   }
   return self;
 }
@@ -58,6 +59,19 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 
   _currentTopLayoutGuide = self.topLayoutGuide;
   _currentBottomLayoutGuide = self.bottomLayoutGuide;
+}
+
+
+- (void)titleDidChange:(NSString *)title
+{
+  UINavigationItem *item = self.navigationItem;
+  item.title = title;
+}
+
+- (void)barTintColorDidChange:(UIColor *)barTintColor
+{
+  UINavigationBar *bar = self.navigationController.navigationBar;
+  bar.barTintColor = barTintColor;
 }
 
 static BOOL RCTFindScrollViewAndRefreshContentInsetInView(UIView *view)

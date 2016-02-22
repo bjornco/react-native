@@ -11,6 +11,7 @@
 
 @implementation RCTNavItem
 
+@synthesize delegate = _delegate;
 @synthesize backButtonItem = _backButtonItem;
 @synthesize leftButtonItem = _leftButtonItem;
 @synthesize rightButtonItem = _rightButtonItem;
@@ -31,6 +32,22 @@
     _rightButtonSystemIcon = NSNotFound;
   }
   return self;
+}
+
+- (void)setTitle:(NSString *)title
+{
+  if (title != _title) {
+    _title = title;
+    [self.delegate titleDidChange:title];
+  }
+}
+
+- (void)setBarTintColor:(UIColor *)barTintColor
+{
+  if (barTintColor != _barTintColor) {
+    _barTintColor = barTintColor;
+    [self.delegate barTintColorDidChange:barTintColor];
+  }
 }
 
 - (void)setBackButtonTitle:(NSString *)backButtonTitle
