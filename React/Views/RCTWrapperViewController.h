@@ -26,6 +26,9 @@ didMoveToNavigationController:(UINavigationController *)navigationController;
 - (instancetype)initWithContentView:(UIView *)contentView NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithNavItem:(RCTNavItem *)navItem;
 
+- (void)titleDidChange:(NSString *)title;
+- (void)barTintColorDidChange:(UIColor *)barTintColor;
+
 @property (nonatomic, weak) id<RCTWrapperViewControllerNavigationListener> navigationListener;
 @property (nonatomic, strong) RCTNavItem *navItem;
 
