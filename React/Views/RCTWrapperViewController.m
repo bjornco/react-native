@@ -68,11 +68,24 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
   item.title = title;
 }
 
+- (void)titleTextColorDidChange:(UIColor *)titleTextColor
+{
+  _navItem.titleTextColor = titleTextColor;
+  [self updateTitleTextStyle];
+}
+
 - (void)barTintColorDidChange:(UIColor *)barTintColor
 {
   UINavigationBar *bar = self.navigationController.navigationBar;
   bar.barTintColor = barTintColor;
 }
+
+- (void)navigationBarHiddenDidChange:(BOOL)navigationBarHidden
+{
+  _navItem.navigationBarHidden = navigationBarHidden;
+  [self updateNavigationBarHidden:false];
+}
+
 
 static BOOL RCTFindScrollViewAndRefreshContentInsetInView(UIView *view)
 {
@@ -114,6 +127,32 @@ static UIView *RCTFindNavBarShadowViewInView(UIView *view)
   return nil;
 }
 
+- (void)updateNavigationBarHidden:(BOOL)animated
+{
+  [self.navigationController
+     setNavigationBarHidden:_navItem.navigationBarHidden
+     animated:animated];
+}
+
+- (void)updateTitleTextStyle
+{
+  UINavigationBar *bar = self.navigationController.navigationBar;
+
+  NSMutableDictionary *titleTextAttributes = [NSMutableDictionary dictionary];
+  if (_navItem.titleTextColor) {
+    [titleTextAttributes setValue:_navItem.titleTextColor forKey: NSForegroundColorAttributeName];
+  }
+  if (_navItem.titleTextFontFamily) {
+    int _fontSize = _navItem.titleTextFontSize ?: 18;
+    [titleTextAttributes setValue:[UIFont fontWithName:_navItem.titleTextFontFamily size:_fontSize] forKey: NSFontAttributeName];
+  }
+  bar.titleTextAttributes = titleTextAttributes;
+
+  [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil]
+    setTitleTextAttributes:titleTextAttributes
+    forState:UIControlStateNormal];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
@@ -121,29 +160,14 @@ static UIView *RCTFindNavBarShadowViewInView(UIView *view)
   // TODO: find a way to make this less-tightly coupled to navigation controller
   if ([self.parentViewController isKindOfClass:[UINavigationController class]])
   {
-    [self.navigationController
-     setNavigationBarHidden:_navItem.navigationBarHidden
-     animated:animated];
+    [self updateNavigationBarHidden:animated];
 
     UINavigationBar *bar = self.navigationController.navigationBar;
     bar.barTintColor = _navItem.barTintColor;
     bar.tintColor = _navItem.tintColor;
     bar.translucent = _navItem.translucent;
 
-    NSMutableDictionary *titleTextAttributes = [NSMutableDictionary dictionary];
-    if (_navItem.titleTextColor) {
-      [titleTextAttributes setValue:_navItem.titleTextColor forKey: NSForegroundColorAttributeName];
-    }
-
-    if (_navItem.titleTextFontFamily) {
-      int _fontSize = _navItem.titleTextFontSize ?: 18;
-      [titleTextAttributes setValue:[UIFont fontWithName:_navItem.titleTextFontFamily size:_fontSize] forKey: NSFontAttributeName];
-    }
-    bar.titleTextAttributes = titleTextAttributes;
-
-    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil]
-      setTitleTextAttributes:titleTextAttributes
-      forState:UIControlStateNormal];
+    [self updateTitleTextStyle];
 
     RCTFindNavBarShadowViewInView(bar).hidden = _navItem.shadowHidden;
 

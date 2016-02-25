@@ -24,6 +24,14 @@
   }
 }
 
+- (void)setTitleTextColor:(UIColor *)titleTextColor
+{
+  if (titleTextColor != _titleTextColor) {
+    _titleTextColor = titleTextColor;
+    [self.delegate titleTextColorDidChange:titleTextColor];
+  }
+}
+
 - (void)setBarTintColor:(UIColor *)barTintColor
 {
   if (barTintColor != _barTintColor) {
@@ -31,6 +39,15 @@
     [self.delegate barTintColorDidChange:barTintColor];
   }
 }
+
+- (void)setNavigationBarHidden:(BOOL)navigationBarHidden
+{
+  if (navigationBarHidden != _navigationBarHidden) {
+    _navigationBarHidden = navigationBarHidden;
+    [self.delegate navigationBarHiddenDidChange:navigationBarHidden];
+  }
+}
+
 
 - (void)setBackButtonTitle:(NSString *)backButtonTitle
 {
