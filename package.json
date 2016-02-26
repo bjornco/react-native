@@ -83,6 +83,7 @@
     "React",
     "React.podspec",
     "android",
+    "ReactAndroid",
     "Libraries",
     "packager",
     "cli.js",
