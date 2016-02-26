@@ -102,6 +102,7 @@
     "ReactAndroid",
     "react.gradle",
     "android",
+    "ReactAndroid",
     "Libraries",
     "packager",
     "cli.js",
