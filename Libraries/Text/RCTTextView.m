@@ -228,6 +228,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 
   if (_placeholder) {
     _placeholderView = [[UITextView alloc] initWithFrame:self.bounds];
+    _placeholderView.accessibilityLabel = _placeholder;
     _placeholderView.editable = NO;
     _placeholderView.userInteractionEnabled = NO;
     _placeholderView.backgroundColor = [UIColor clearColor];
