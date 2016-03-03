@@ -260,6 +260,7 @@ static NSAttributedString *removeReactTagFromString(NSAttributedString *string)
 
   if (_placeholder) {
     _placeholderView = [[UITextView alloc] initWithFrame:self.bounds];
+    _placeholderView.accessibilityLabel = _placeholder;
     _placeholderView.editable = NO;
     _placeholderView.userInteractionEnabled = NO;
     _placeholderView.backgroundColor = [UIColor clearColor];
