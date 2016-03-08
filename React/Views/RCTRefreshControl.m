@@ -15,7 +15,10 @@
   BOOL _initialRefreshingState;
   BOOL _isInitialRender;
   BOOL _currentRefreshingState;
+  UIColor *_backgroundColor;
 }
+
+@synthesize backgroundColor = _backgroundColor;
 
 - (instancetype)init
 {
@@ -128,6 +131,12 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
       [self endRefreshing];
     }
   }
+}
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor
+{
+  _backgroundColor = backgroundColor;
+  self.superview.backgroundColor = _backgroundColor;
 }
 
 - (void)refreshControlValueChanged
