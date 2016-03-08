@@ -15,5 +15,6 @@
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) RCTDirectEventBlock onRefresh;
+@property (nonatomic, strong) UIColor *backgroundColor;
 
 @end
