@@ -68,10 +68,8 @@ type $NODE_BINARY >/dev/null 2>&1 || nodejs_not_found
 set -x
 DEST=$CONFIGURATION_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH
 
-[[ $ENTRY_FILE ]] || ENTRY_FILE="index.ios.js"
-
 $NODE_BINARY "$REACT_NATIVE_DIR/local-cli/cli.js" bundle \
-  --entry-file $ENTRY_FILE \
+  --entry-file index.ios.js \
   --platform ios \
   --dev $DEV \
   --bundle-output "$DEST/main.jsbundle" \
