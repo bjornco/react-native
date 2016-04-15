@@ -147,6 +147,12 @@ var self = {};
   function readBlobAsText(blob) {
     var reader = new FileReader()
     reader.readAsText(blob)
+    /**
+     * Hack to prevent FileReader from hanging when debugging in Chrome.
+     */
+    if (__DEV__) {
+      setTimeout(() => reader.readyState, 0);
+    }
     return fileReaderReady(reader)
   }
 
