@@ -70,12 +70,13 @@ function polyfillGlobal(name, newValue, scope = global) {
   Object.defineProperty(scope, name, {...descriptor, value: newValue});
 }
 
-function polyfillLazyGlobal(name, valueFn, scope = global) {
+function polyfillLazyGlobal(name, valueFn, scope = global, descriptor = { configurable: true, enumerable: true }) {
   if (scope[name] !== undefined) {
     const descriptor = Object.getOwnPropertyDescriptor(scope, name);
     const backupName = `original${name[0].toUpperCase()}${name.substr(1)}`;
     Object.defineProperty(scope, backupName, {...descriptor, value: scope[name]});
   }
+
 
   Object.defineProperty(scope, name, {
     configurable: true,
@@ -84,11 +85,7 @@ function polyfillLazyGlobal(name, valueFn, scope = global) {
       return (this[name] = valueFn());
     },
     set(value) {
-      Object.defineProperty(this, name, {
-        configurable: true,
-        enumerable: true,
-        value
-      });
+      Object.defineProperty(this, name, { ...descriptor, value });
     }
   });
 }
@@ -128,7 +125,11 @@ function setUpErrorHandler() {
  */
 function setUpTimers() {
   const defineLazyTimer = (name) => {
-    polyfillLazyGlobal(name, () => require('JSTimers')[name]);
+    polyfillLazyGlobal(name, (() => require('JSTimers')[name]), global, {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+    });
   };
   defineLazyTimer('setTimeout');
   defineLazyTimer('setInterval');
