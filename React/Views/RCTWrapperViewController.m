@@ -86,7 +86,6 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
   [self updateNavigationBarHidden:false];
 }
 
-
 static BOOL RCTFindScrollViewAndRefreshContentInsetInView(UIView *view)
 {
   if ([view conformsToProtocol:@protocol(RCTAutoInsetsProtocol)]) {
@@ -178,7 +177,15 @@ static UIView *RCTFindNavBarShadowViewInView(UIView *view)
     item.backBarButtonItem = _navItem.backButtonItem;
 #endif //TARGET_OS_TV
     item.leftBarButtonItem = _navItem.leftButtonItem;
-    item.rightBarButtonItem = _navItem.rightButtonItem;
+
+    // HACK: Try out native multiple nav bar button support.
+    // Can eventually expand support for >2, and for left
+    // bar items as well.
+    if (_navItem.rightButtonSecondaryItem) {
+      item.rightBarButtonItems = @[_navItem.rightButtonItem, _navItem.rightButtonSecondaryItem];
+    } else if (_navItem.rightButtonItem) {
+      item.rightBarButtonItems = @[_navItem.rightButtonItem];
+    }
   }
 }
 

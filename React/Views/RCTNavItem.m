@@ -15,6 +15,7 @@
 @synthesize backButtonItem = _backButtonItem;
 @synthesize leftButtonItem = _leftButtonItem;
 @synthesize rightButtonItem = _rightButtonItem;
+@synthesize rightButtonSecondaryItem = _rightButtonSecondaryItem;
 
 - (UIImageView *)titleImageView
 {
@@ -171,6 +172,18 @@
   _rightButtonItem = nil;
 }
 
+- (void)setRightButtonSecondaryTitle:(NSString *)rightButtonSecondaryTitle
+{
+  _rightButtonSecondaryTitle = rightButtonSecondaryTitle;
+  _rightButtonSecondaryItem = nil;
+}
+
+- (void)setRightButtonSecondaryIcon:(UIImage *)rightButtonSecondaryIcon
+{
+  _rightButtonSecondaryIcon = rightButtonSecondaryIcon;
+  _rightButtonSecondaryItem = nil;
+}
+
 - (UIBarButtonItem *)rightButtonItem
 {
   if (!_rightButtonItem) {
@@ -200,10 +213,42 @@
   return _rightButtonItem;
 }
 
+- (UIBarButtonItem *)rightButtonSecondaryItem
+{
+  if (!_rightButtonSecondaryItem) {
+    if (_rightButtonSecondaryIcon) {
+      _rightButtonSecondaryItem =
+      [[UIBarButtonItem alloc] initWithImage:_rightButtonSecondaryIcon
+                                       style:UIBarButtonItemStylePlain
+                                      target:self
+                                      action:@selector(handleRightButtonSecondaryPress)];
+
+    } else if (_rightButtonSecondaryTitle.length) {
+      _rightButtonSecondaryItem =
+      [[UIBarButtonItem alloc] initWithTitle:_rightButtonSecondaryTitle
+                                       style:UIBarButtonItemStylePlain
+                                      target:self
+                                      action:@selector(handleRightButtonSecondaryPress)];
+    } else {
+      _rightButtonSecondaryItem = nil;
+    }
+  }
+  return _rightButtonSecondaryItem;
+}
+
+
 - (void)handleRightButtonPress
 {
   if (_onRightButtonPress) {
     _onRightButtonPress(nil);
+  }
+}
+
+
+- (void)handleRightButtonSecondaryPress
+{
+  if (_onRightButtonSecondaryPress) {
+    _onRightButtonSecondaryPress(nil);
   }
 }
 
