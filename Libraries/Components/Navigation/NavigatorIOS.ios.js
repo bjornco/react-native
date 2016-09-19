@@ -63,6 +63,9 @@ type Route = {
   rightButtonTitle?: string;
   rightButtonIcon?: Object;
   onRightButtonPress?: Function;
+  rightButtonSecondaryTitle?: string;
+  rightButtonSecondaryIcon?: Object;
+  onRightButtonSecondaryPress?: Function;
   wrapperStyle?: any;
 };
 
@@ -234,6 +237,21 @@ var NavigatorIOS = React.createClass({
        * Called when the right header button is pressed
        */
       onRightButtonPress: PropTypes.func,
+
+      /**
+       * If set, the secondary right header button image will appear with this source
+       */
+      rightButtonSecondaryIcon: Image.propTypes.source,
+
+      /**
+       * If set, the secondary right header button will appear with this name
+       */
+      rightButtonSecondaryTitle: PropTypes.string,
+
+      /**
+       * Called when the secondary right header button is pressed
+       */
+      onRightButtonSecondaryPress: PropTypes.func,
 
       /**
        * Styles for the navigation item containing the component
