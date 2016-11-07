@@ -405,6 +405,7 @@ var NavigatorIOS = React.createClass({
        */
       onRightButtonPress: PropTypes.func,
 
+      /**
        * If set, the secondary right header button image will appear with this source
        */
       rightButtonSecondaryIcon: Image.propTypes.source,
