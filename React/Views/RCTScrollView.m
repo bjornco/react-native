@@ -440,8 +440,8 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 
 - (NSArray<UIView *> *)reactSubviews
 {
-  if (_contentView && _scrollView.refreshControl) {
-    return @[_contentView, _scrollView.refreshControl];
+  if (_contentView && _scrollView.rctRefreshControl) {
+    return @[_contentView, _scrollView.rctRefreshControl];
   }
   return _contentView ? @[_contentView] : @[];
 }
@@ -882,15 +882,15 @@ RCT_SET_AND_PRESERVE_OFFSET(setScrollIndicatorInsets, scrollIndicatorInsets, UIE
 {
   if (!onRefreshStart) {
     _onRefreshStart = nil;
-    _scrollView.refreshControl = nil;
+    _scrollView.rctRefreshControl = nil;
     return;
   }
   _onRefreshStart = [onRefreshStart copy];
 
-  if (!_scrollView.refreshControl) {
+  if (!_scrollView.rctRefreshControl) {
     RCTRefreshControl *refreshControl = [RCTRefreshControl new];
     [refreshControl addTarget:self action:@selector(refreshControlValueChanged) forControlEvents:UIControlEventValueChanged];
-    _scrollView.refreshControl = refreshControl;
+    _scrollView.rctRefreshControl = refreshControl;
   }
 }
 
@@ -903,7 +903,7 @@ RCT_SET_AND_PRESERVE_OFFSET(setScrollIndicatorInsets, scrollIndicatorInsets, UIE
 
 - (void)endRefreshing
 {
-  [_scrollView.refreshControl endRefreshing];
+  [_scrollView.rctRefreshControl endRefreshing];
 }
 
 - (void)sendScrollEventWithName:(NSString *)eventName
