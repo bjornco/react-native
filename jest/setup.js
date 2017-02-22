@@ -125,6 +125,7 @@ const mockNativeModules = {
     addListener: jest.fn(),
     removeListeners: jest.fn(),
   },
+  PushNotificationIOS: jest.fn(),
   SourceCode: {
     scriptURL: null,
   },
